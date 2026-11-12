@@ -1,0 +1,13 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Редактирование профиля{% endblock %}
+{% block content %}
+<h2 class="mb-4">Редактирование профиля</h2>
+<div class="card p-4" style="border-radius: 18px; max-width: 500px;">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'profile' %}" class="btn btn-outline-dark">Отмена</a>
+    </form>
+</div>
+{% endblock %}

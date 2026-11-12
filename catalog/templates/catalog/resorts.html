@@ -1,0 +1,221 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Курорты{% endblock %}
+
+{% block content %}
+
+<div class="snowflakes">
+    <span class="snowflake" style="left:8%; animation-duration:8s; animation-delay:0s;">❄</span>
+    <span class="snowflake" style="left:30%; animation-duration:6s; animation-delay:2s; font-size:0.7rem;">❄</span>
+    <span class="snowflake" style="left:55%; animation-duration:9s; animation-delay:1s;">❄</span>
+    <span class="snowflake" style="left:75%; animation-duration:7s; animation-delay:3s; font-size:0.6rem;">❄</span>
+    <span class="snowflake" style="left:92%; animation-duration:8s; animation-delay:0.5s;">❄</span>
+</div>
+
+<h2 class="mb-4"><i class="bi bi-map"></i> Курорты</h2>
+
+<div class="d-flex flex-column gap-4">
+    {% for item in resorts_data %}
+    <div class="card" style="border-radius: 20px !important; overflow: hidden;">
+        <div class="row g-0" style="min-height: 160px;">
+
+            <!-- Цвет страны + название вертикально -->
+            {% with country_name=item.resort.country.name %}
+            <div class="col-auto d-flex align-items-center justify-content-center px-3"
+                style="background: {% if country_name == 'Россия' %}linear-gradient(180deg, #1a0a0a, #2d1010){% elif country_name == 'Австрия' %}linear-gradient(180deg, #1a0a0a, #2d1515){% elif country_name == 'Франция' %}linear-gradient(180deg, #0a0a1a, #10102d){% elif country_name == 'Швейцария' %}linear-gradient(180deg, #0a1a0a, #10280e){% else %}linear-gradient(180deg, #0c1a2e, #081020){% endif %};
+                border-right: 1px solid var(--border); min-width: 52px; min-height: 200px;">
+                <span style="
+                    writing-mode: vertical-rl;
+                    text-orientation: mixed;
+                    transform: rotate(180deg);
+                    font-family: 'Rajdhani', sans-serif;
+                    font-size: 0.7rem;
+                    font-weight: 700;
+                    letter-spacing: 3px;
+                    text-transform: uppercase;
+                    color: {% if country_name == 'Россия' %}rgba(200,80,80,0.5){% elif country_name == 'Австрия' %}rgba(200,80,80,0.5){% elif country_name == 'Франция' %}rgba(80,80,200,0.5){% elif country_name == 'Швейцария' %}rgba(80,160,80,0.5){% else %}rgba(124,156,191,0.4){% endif %};">
+                    {% if country_name == 'Россия' %}Russia{% elif country_name == 'Австрия' %}Austria{% elif country_name == 'Франция' %}France{% elif country_name == 'Швейцария' %}Switzerland{% elif country_name == 'Германия' %}Germany{% elif country_name == 'Канада' %}Canada{% else %}{{ country_name }}{% endif %}
+                </span>
+            </div>
+            {% endwith %}
+
+            <!-- Фото -->
+            {% if item.resort.image %}
+            <div class="col-auto" style="width: 280px; min-height: 200px; overflow: hidden;">
+                <img src="{{ item.resort.image.url }}" alt="{{ item.resort.name }}"
+                    style="width:280px; height:100%; object-fit:cover; opacity:0.85;">
+            </div>
+            {% else %}
+            <div class="col-auto d-flex align-items-center justify-content-center"
+                style="width:280px; min-height:200px; background: linear-gradient(135deg, #0a1525, #0d1e30); border-right: 1px solid var(--border); flex-shrink:0;">
+                <i class="bi bi-mountain" style="font-size: 3rem; color: var(--border-hover);"></i>
+            </div>
+            {% endif %}
+
+            <!-- Основная инфа -->
+            <div class="col p-4">
+                
+                <!-- Название + погода в одну строку -->
+                <div class="d-flex align-items-center justify-content-between mb-1 flex-wrap gap-2">
+                    <h4 style="font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 1px; margin-bottom: 0;">
+                        {{ item.resort.name }}
+                    </h4>
+                    {% if item.resort.latitude and item.resort.longitude %}
+                    <div class="d-flex align-items-center gap-2 weather-block"
+                        data-lat="{{ item.resort.latitude|stringformat:'f' }}"
+                        data-lon="{{ item.resort.longitude|stringformat:'f' }}">
+                        <span style="color: var(--text-muted); font-size: 0.78rem;">
+                            <i class="bi bi-cloud"></i> загрузка...
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Описание -->
+                <p style="color: #7a8fa5; font-size: 0.88rem; line-height: 1.65; margin-bottom: 0;">
+                    {{ item.resort.description }}
+                </p>
+
+                <!-- Кнопки -->
+                <div class="mt-3 d-flex flex-wrap gap-2">
+                    {% if item.resort.latitude and item.resort.longitude %}
+                    <a href="https://www.google.com/maps?q={{ item.resort.latitude|stringformat:'f' }},{{ item.resort.longitude|stringformat:'f' }}"
+                    target="_blank"
+                    style="font-size: 0.78rem; color: var(--accent); text-decoration: none; letter-spacing: 0.5px; border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; transition: all 0.2s;"
+                    onmouseover="this.style.borderColor='var(--border-hover)'; this.style.color='var(--accent-light)'"
+                    onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--accent)'">
+                        <i class="bi bi-map"></i> Как добраться
+                    </a>
+                    {% endif %}
+                    {% if item.resort.resort_map %}
+                    <button onclick="openMapModal('{{ item.resort.resort_map.url }}')"
+                    style="font-size: 0.78rem; color: var(--accent); background:none; letter-spacing: 0.5px; border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; transition: all 0.2s; cursor:pointer;"
+                    onmouseover="this.style.borderColor='var(--border-hover)'; this.style.color='var(--accent-light)'"
+                    onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--accent)'">
+                        <i class="bi bi-image"></i> Карта трасс
+                    </button>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<!-- Модальное окно карты -->
+<div id="mapModal" onclick="closeModal(event)"
+     style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; cursor:zoom-out;">
+    
+    <button onclick="closeMapModal()"
+            style="position:fixed; top:20px; right:20px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; width:44px; height:44px; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:10000; transition: background 0.2s;"
+            onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+            onmouseout="this.style.background='rgba(255,255,255,0.1)'">✕</button>
+
+    <div style="position:fixed; top:10px; right:74px; display:flex; gap:8px; z-index:10000;">
+        <button onclick="zoomIn()"
+                style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; width:44px; height:44px; border-radius:50%; font-size:1.2rem; cursor:pointer; transition: background 0.2s;"
+                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                onmouseout="this.style.background='rgba(255,255,255,0.1)'">+</button>
+        <button onclick="zoomOut()"
+                style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; width:44px; height:44px; border-radius:50%; font-size:1.2rem; cursor:pointer; transition: background 0.2s;"
+                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                onmouseout="this.style.background='rgba(255,255,255,0.1)'">−</button>
+        <button onclick="resetZoom()"
+                style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; width:44px; height:44px; border-radius:50%; font-size:1.2rem; cursor:pointer; font-size:0.8rem; transition: background 0.2s;"
+                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                onmouseout="this.style.background='rgba(255,255,255,0.1)'">1:1</button>
+    </div>
+
+    <div id="mapContainer" style="width:100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+        <img id="mapImage" src="" alt="Карта трасс"
+             style="max-width:90%; max-height:90%; object-fit:contain; transform-origin:center; transition:transform 0.2s; cursor:grab; user-select:none;">
+    </div>
+</div>
+
+<script>
+let currentZoom = 1;
+let isDragging = false;
+let startX, startY, translateX = 0, translateY = 0;
+
+function openMapModal(url) {
+    document.getElementById('mapImage').src = url;
+    document.getElementById('mapModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    currentZoom = 1;
+    translateX = 0;
+    translateY = 0;
+    updateTransform();
+}
+
+function closeMapModal() {
+    document.getElementById('mapModal').style.display = 'none';
+    document.body.style.overflow = '';
+    currentZoom = 1;
+    translateX = 0;
+    translateY = 0;
+}
+
+function closeModal(e) {
+    if (e.target === document.getElementById('mapModal')) closeMapModal();
+}
+
+function updateTransform() {
+    document.getElementById('mapImage').style.transform =
+        `translate(${translateX}px, ${translateY}px) scale(${currentZoom})`;
+}
+
+function zoomIn() { currentZoom = Math.min(currentZoom + 0.5, 5); updateTransform(); }
+function zoomOut() { currentZoom = Math.max(currentZoom - 0.5, 0.5); updateTransform(); }
+function resetZoom() { currentZoom = 1; translateX = 0; translateY = 0; updateTransform(); }
+
+// Зум колесиком мыши
+document.addEventListener('wheel', (e) => {
+    if (document.getElementById('mapModal').style.display === 'block') {
+        e.preventDefault();
+        if (e.deltaY < 0) zoomIn();
+        else zoomOut();
+    }
+}, { passive: false });
+
+// Перетаскивание
+const img = document.getElementById('mapImage');
+img.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX - translateX;
+    startY = e.clientY - translateY;
+    img.style.cursor = 'grabbing';
+});
+document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    translateX = e.clientX - startX;
+    translateY = e.clientY - startY;
+    updateTransform();
+});
+document.addEventListener('mouseup', () => {
+    isDragging = false;
+    img.style.cursor = 'grab';
+});
+
+// Закрытие по Escape
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMapModal();
+});
+// Асинхронная загрузка погоды
+document.querySelectorAll('.weather-block').forEach(block => {
+    const lat = block.dataset.lat;
+    const lon = block.dataset.lon;
+    fetch(`/weather/?lat=${lat}&lon=${lon}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.error) { block.innerHTML = ''; return; }
+            block.innerHTML = `
+                <img src="https://openweathermap.org/img/wn/${data.icon}.png" width="32" height="32">
+                <span style="font-family:'Rajdhani',sans-serif; font-size:1.4rem; font-weight:700; color:var(--text-primary);">${data.temp}°C</span>
+                <span style="color:var(--text-muted); font-size:0.78rem; text-transform:capitalize;">${data.description}</span>
+                <span style="color:var(--text-muted); font-size:0.78rem;"><i class="bi bi-wind"></i> ${data.wind} м/с</span>
+            `;
+        })
+        .catch(() => { block.innerHTML = ''; });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Избранное{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-heart"></i> Избранное</h2>
+{% if favorites %}
+<div class="d-flex flex-column gap-3">
+    {% for fav in favorites %}
+    <div class="card" style="border-radius: 18px; overflow: hidden;">
+        <div class="row g-0" style="min-height: 140px;">
+            {% if fav.snowboard.image %}
+            <div class="col-auto" style="width: 200px;">
+                <img src="{{ fav.snowboard.image.url }}" alt="{{ fav.snowboard.name }}"
+                     style="width:200px; height:100%; object-fit:cover; opacity:0.85;">
+            </div>
+            {% else %}
+            <div class="col-auto d-flex align-items-center justify-content-center"
+                 style="width:200px; background: linear-gradient(135deg, #0a1525, #0d1e30); border-right: 1px solid var(--border);">
+                <i class="bi bi-snow" style="font-size:2.5rem; color:var(--border-hover);"></i>
+            </div>
+            {% endif %}
+            <div class="col p-3">
+                <h5>{{ fav.snowboard.name }}</h5>
+                <p class="text-muted">{{ fav.snowboard.brand.name }} | {{ fav.snowboard.length }} см</p>
+                <button onclick="toggleFav({{ fav.snowboard.id }}, this)" class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-heart-fill"></i> Удалить
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>Нет избранных досок. <a href="{% url 'selector' %}">Перейти в подборщик</a></p>
+{% endif %}
+
+<script>
+// Функция чтения CSRF-токена из cookie (обязательно для AJAX)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Удаление из избранного
+function toggleFav(boardId, btn) {
+    fetch('/toggle_favorite/' + boardId + '/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'removed') {
+            const card = btn.closest('.card');
+            card.style.transition = 'opacity 0.3s';
+            card.style.opacity = '0';
+            setTimeout(() => card.remove(), 300);
+        }
+    });
+}
+</script>
+{% endblock %}

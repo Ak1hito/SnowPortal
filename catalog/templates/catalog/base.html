@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SnowPortal{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'catalog/css/style.css' %}" rel="stylesheet">
+    <style>
+        body {
+            background: #0a1128;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Мягкий полукруг заката внизу (как свет из-за горизонта) */
+        body::before {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%; /* было 40%, стало выше */
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(
+                ellipse 90% 100% at 50% 100%, /* растянули по горизонтали */
+                rgba(255, 120, 40, 0.35) 0%,  /* чуть ярче */
+                rgba(230, 90, 30, 0.15) 40%,
+                transparent 70%
+            );
+        }
+
+        main, nav, footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Шапка */
+        .navbar {
+            background: #0b1525 !important;
+            border-bottom: 1px solid #1e2d4a;
+        }
+        .navbar-brand, .navbar-nav .nav-link {
+            color: #cfddee !important;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ffb27a !important;
+        }
+
+        /* Кнопки */
+        .btn-primary, .btn-dark, .btn-outline-dark:hover, .btn-outline-dark.active {
+            background: linear-gradient(135deg, #e46b2c, #c44d1a) !important;
+            border: none !important;
+            box-shadow: 0 0 12px rgba(230, 107, 44, 0.6);
+            color: #fff !important;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover, .btn-dark:hover {
+            box-shadow: 0 0 20px rgba(249, 160, 63, 0.9);
+            transform: translateY(-1px);
+        }
+        .btn-outline-dark {
+            background: transparent !important;
+            border: 1px solid #e46b2c !important;
+            color: #e46b2c !important;
+            box-shadow: none;
+        }
+        .btn-outline-dark:hover {
+            background: rgba(230, 107, 44, 0.15) !important;
+            box-shadow: 0 0 10px rgba(230, 107, 44, 0.4);
+        }
+        .style-btn.btn-dark {
+            background: linear-gradient(135deg, #e46b2c, #c44d1a) !important;
+            border-color: transparent !important;
+            box-shadow: 0 0 8px #e46b2c;
+        }
+
+        /* Карточки */
+        .card {
+            background: rgba(15, 25, 45, 0.9) !important;
+            border: 1px solid #1e2d4a;
+            backdrop-filter: blur(4px);
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #e46b2c, #f9a03f) !important;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">
+            <i class="bi bi-snow"></i> SnowPortal
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="bi bi-house"></i> Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/resorts/"><i class="bi bi-map"></i> Курорты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/selector/"><i class="bi bi-sliders"></i> Подборщик</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'favorites' %}"><i class="bi bi-heart"></i> Избранное</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile/"><i class="bi bi-person-circle"></i> {{ user.username }}</a>
+                </li>
+                <li class="nav-item">
+                    <form action="{% url 'logout' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn nav-link border-0 bg-transparent">
+                            <i class="bi bi-box-arrow-right"></i> Выйти
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}"><i class="bi bi-person-plus"></i> Регистрация</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Войти</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container my-4">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

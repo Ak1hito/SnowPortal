@@ -1,0 +1,296 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+    --bg-dark: #080c14;
+    --bg-card: #0f1520;
+    --bg-card-hover: #141c2e;
+    --accent: #7c9cbf;
+    --accent-light: #a8c4e0;
+    --accent-glow: rgba(124, 156, 191, 0.25);
+    --text-primary: #dce6f0;
+    --text-muted: #5a6a7e;
+    --border: rgba(124, 156, 191, 0.12);
+    --border-hover: rgba(124, 156, 191, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    background-image:
+        radial-gradient(ellipse at 15% 15%, rgba(124, 156, 191, 0.05) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 85%, rgba(100, 130, 170, 0.03) 0%, transparent 55%);
+}
+
+/* Навбар */
+.navbar {
+    background: rgba(8, 12, 20, 0.96) !important;
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+}
+
+.navbar-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.6rem !important;
+    font-weight: 700;
+    color: var(--accent-light) !important;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.nav-link {
+    color: var(--text-muted) !important;
+    font-size: 0.8rem;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    transition: color 0.25s;
+    padding: 8px 16px !important;
+}
+
+.nav-link:hover {
+    color: var(--accent-light) !important;
+}
+
+.nav-link.active {
+    color: var(--accent-light) !important;
+}
+
+/* Карточки */
+.card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 18px !important;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--border-hover) !important;
+    box-shadow: 0 12px 40px rgba(124, 156, 191, 0.1) !important;
+}
+
+/* Бейджи */
+.badge.bg-primary {
+    background: rgba(124, 156, 191, 0.15) !important;
+    color: var(--accent-light) !important;
+    border: 1px solid rgba(124, 156, 191, 0.25);
+    font-weight: 500;
+}
+.badge.bg-info {
+    background: rgba(100, 170, 200, 0.15) !important;
+    color: #93cfe8 !important;
+    border: 1px solid rgba(100, 170, 200, 0.25);
+}
+.badge.bg-secondary {
+    background: rgba(90, 106, 126, 0.15) !important;
+    color: #8a9db5 !important;
+    border: 1px solid rgba(90, 106, 126, 0.25);
+}
+.badge.bg-warning {
+    background: rgba(200, 175, 120, 0.15) !important;
+    color: #d4b87a !important;
+    border: 1px solid rgba(200, 175, 120, 0.25);
+}
+.badge.bg-light {
+    background: rgba(255, 255, 255, 0.04) !important;
+    color: var(--text-muted) !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* Кнопки */
+.btn-primary {
+    background: var(--accent) !important;
+    border: none !important;
+    color: #080c14 !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 10px !important;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    background: var(--accent-light) !important;
+    box-shadow: 0 0 24px var(--accent-glow) !important;
+}
+
+.btn-outline-dark {
+    border-color: var(--border) !important;
+    color: var(--text-muted) !important;
+    border-radius: 20px !important;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+}
+
+.btn-outline-dark:hover {
+    background: rgba(124, 156, 191, 0.1) !important;
+    border-color: var(--border-hover) !important;
+    color: var(--accent-light) !important;
+}
+
+.btn-dark {
+    background: rgba(124, 156, 191, 0.12) !important;
+    border: 1px solid var(--border-hover) !important;
+    color: var(--accent-light) !important;
+    border-radius: 20px !important;
+    font-size: 0.8rem;
+}
+
+.btn-outline-light {
+    border-color: var(--border) !important;
+    color: var(--text-primary) !important;
+    border-radius: 10px !important;
+}
+
+.btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.btn-success {
+    background: rgba(80, 160, 130, 0.8) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600;
+}
+
+.btn-warning {
+    background: rgba(200, 160, 80, 0.8) !important;
+    border: none !important;
+    color: #080c14 !important;
+    border-radius: 10px !important;
+    font-weight: 600;
+}
+
+/* Progress bar */
+.progress {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-radius: 6px;
+    height: 6px !important;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #5a7a9a, var(--accent-light)) !important;
+    border-radius: 6px;
+}
+
+/* Текст */
+.text-muted { color: var(--text-muted) !important; }
+
+.card-title {
+    color: var(--text-primary) !important;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.card-text {
+    color: #7a8fa5 !important;
+    font-size: 0.88rem;
+    line-height: 1.65;
+}
+
+/* Hero */
+.hero-gradient {
+    background: linear-gradient(135deg, #080c14 0%, #0c1420 50%, #0f1a2e 100%);
+    border: 1px solid var(--border);
+    border-radius: 24px !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-gradient::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: -30%;
+    width: 160%;
+    height: 200%;
+    background: radial-gradient(ellipse, rgba(124, 156, 191, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* Снежинки */
+.snowflakes {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.snowflake {
+    position: absolute;
+    top: -20px;
+    color: rgba(168, 196, 224, 0.4);
+    font-size: 1rem;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to { transform: translateY(400px) rotate(360deg); opacity: 0; }
+}
+
+/* Fade-in карточек */
+.card {
+    animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Футер */
+footer {
+    background: rgba(8, 12, 20, 0.98) !important;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted) !important;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+}
+
+/* Форма подборщика (пригодится) */
+.form-control, .form-select {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text-primary) !important;
+    border-radius: 10px !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--border-hover) !important;
+    box-shadow: 0 0 0 3px rgba(124, 156, 191, 0.1) !important;
+    background: var(--bg-card-hover) !important;
+}
+
+.form-label {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.snowflakes {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+main.container {
+    position: relative;
+    z-index: 1;
+}

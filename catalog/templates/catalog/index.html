@@ -1,0 +1,60 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}SnowPortal — главная{% endblock %}
+
+{% block content %}
+
+<div class="hero-gradient px-4 py-5 text-center rounded-3 mb-5">
+    <div class="snowflakes">
+        <span class="snowflake" style="left:10%; animation-duration:6s; animation-delay:0s;">❄</span>
+        <span class="snowflake" style="left:25%; animation-duration:8s; animation-delay:1s; font-size:0.7rem;">❄</span>
+        <span class="snowflake" style="left:50%; animation-duration:7s; animation-delay:2s;">❄</span>
+        <span class="snowflake" style="left:70%; animation-duration:9s; animation-delay:0.5s; font-size:0.6rem;">❄</span>
+        <span class="snowflake" style="left:90%; animation-duration:6s; animation-delay:3s;">❄</span>
+    </div>
+    <h1 class="display-4 fw-bold text-white">
+        <i class="bi bi-snow"></i> SnowPortal
+    </h1>
+    <p class="lead mb-4" style="color: var(--accent-light);">Твой личный гид в мире сноубординга</p>
+    <a href="/selector/" class="btn btn-primary btn-lg me-2">
+        <i class="bi bi-sliders"></i> Подобрать доску
+    </a>
+    <a href="{% url 'selector' %}#catalog-results" class="btn btn-outline-light btn-lg">
+        <i class="bi bi-grid"></i> Каталог досок
+    </a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+                <i class="bi bi-sliders display-4 text-primary mb-3"></i>
+                <h5 class="card-title">Умный подборщик</h5>
+                <p class="card-text text-muted">Введи свой рост, вес и стиль катания — получи доску с процентом совместимости.</p>
+                <a href="/selector/" class="btn btn-primary">Подобрать</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+                <i class="bi bi-map display-4 text-success mb-3"></i>
+                <h5 class="card-title">Карта курортов</h5>
+                <p class="card-text text-muted">Популярные курорты с актуальной погодой и вердиктом — ехать или нет.</p>
+                <a href="/resorts/" class="btn btn-success">Смотреть</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+                <i class="bi bi-person-circle display-4 text-warning mb-3"></i>
+                <h5 class="card-title">Личный кабинет</h5>
+                <p class="card-text text-muted">Избранные доски и история подборов — всё в одном месте.</p>
+                <a href="/profile/" class="btn btn-warning">Войти</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
